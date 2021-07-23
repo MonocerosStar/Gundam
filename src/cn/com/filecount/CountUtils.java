@@ -13,36 +13,78 @@ import java.util.regex.Pattern;
 public class CountUtils {
 
 	private Map getCharNums(String fileName,String letter) throws IOException{
-	int count = 0 ;
-	//¼ÇÂ¼ĞĞÊıĞĞÊı¡¢ÁĞÊıºÍ´ÎÊı-ÓÃÀ´¶ÔÓ¦×ø±ê
-	int rowLocation = 0; 
-	int colLocation = 0;
-	int counts = 0;
-	//ÓÃÀ´´æ·Å×Ö·û³öÏÖµÄ×Ü´ÎÊı
-	Map<String,Integer> map = new HashMap<String,Integer>();
-	Map<String,Object> ret = new HashMap<String,Object>();
-	File file = new File(fileName);
-	String line = null;
-	List<Coords> list =new ArrayList<Coords>();
-	if (file.exists() && letter != null) {
-		//¶ÁÎÄ¼ş file
-		BufferedReader br = new BufferedReader(new FileReader(file));
-		while ((line = br.readLine()) != null) {
-			rowLocation++ ;
-			while (line.contains(letter)) {
-				colLocation = line.indexOf(letter);
-				list.add(new Coords(rowLocation,colLocation));
-				line = line.substring(line.indexOf(letter));
-				counts++;	
-			}		
+		//ä¿å­˜å­—ç¬¦å‡ºç°çš„ä½ç½®åŠæ¬¡æ•°
+		int rowLocation = 0; 
+		int colLocation = 0;
+		int counts = 0;
+		//å­˜æ”¾å­—ç¬¦å‡ºç°çš„æ¬¡æ•°
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		Map<String,Object> ret = new HashMap<String,Object>();
+		File file = new File(fileName);
+		String line = null;
+		List<Coords> list =new ArrayList<Coords>();
+		if (file.exists() && letter != null) {
+			//è¯»å–æ–‡ä»¶ file
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			while ((line = br.readLine()) != null) {
+				rowLocation++ ;
+				while (line.contains(letter)) {
+					colLocation = line.indexOf(letter);
+					list.add(new Coords(rowLocation,colLocation));
+					line = line.substring(line.indexOf(letter));
+					counts++;	
+				}		
+			}
+			map.put(letter, counts);
+			ret.put(letter, map);
+			ret.put("location", list);
+			br.close();
+		}else {
+			System.out.println("æ–‡ä»¶ä¸å­˜åœ¨ï¼Œè¯·é‡æ–°è¾“å…¥ï¼š");
 		}
-		map.put(letter, counts);
-		ret.put(letter, map);
-		ret.put("location", list);
-		br.close();
-	}else {
-		System.out.println("ÎÄ¼ş²»´æÔÚ£¬»òÍ³¼ÆµÄ×ÖÄ¸²»´æÔÚ£¡");
+		return ret;
 	}
-	return ret;
-}
+	//è·å–è¡Œæ•°
+	private int getLineNumber(String fileName) throws IOException{
+		int counts = 0;
+		File file = new File(fileName);
+		if (file.exists()) {
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			while(br.readLine()!=null){
+				counts++;
+			}
+			br.close();
+		}else {
+			System.out.println("æ–‡ä»¶ä¸å­˜åœ¨ï¼Œè¯·é‡æ–°è¾“å…¥ï¼š");
+		}
+		return counts;
+	}
+	//ç»Ÿè®¡æ³¨é‡Šè¡Œã€ç©ºè¡Œã€ä»£ç è¡Œ
+    public void countDiffLine(String path) {
+        int annotationLineNum = 0;
+        int codeLineNum = 0;
+        int nullLineNum = 0;
+        String line;
+        BufferedReader br = null;
+        // æ³¨é‡ŠåŒ¹é…å™¨(åŒ¹é…å•è¡Œã€å¤šè¡Œã€æ–‡æ¡£æ³¨é‡Š)
+        Pattern annotationLinePattern = Pattern.compile("(//)|(/\\*)|(^\\s*\\*)|(^\\s*\\*+/)");    
+        try {
+            br = new BufferedReader(new FileReader(path));
+            while((line = br.readLine()) != null){
+                if(annotationLinePattern.matcher(line).find()) {//æ³¨é‡Šè¡Œ       
+                    annotationLineNum++;
+                }else if (line.matches("\\s*\\p{Graph}?\\s*")) {//ç©ºè¡Œ
+                    nullLineNum++;
+                }else {                 
+                    codeLineNum++;
+                }               
+            }
+            System.out.println("ç©ºç™½è¡Œæ•°æ˜¯: " + nullLineNum);
+            System.out.println("æ³¨é‡Šè¡Œæ•°æ˜¯: " + annotationLineNum);
+            System.out.println("ä»£ç è¡Œæ•°æ˜¯: " + codeLineNum);
+            br.close();
+        } catch (IOException e) {
+            System.out.println(path + "æ–‡ä»¶åé”™è¯¯");
+        }   
+    }
 }

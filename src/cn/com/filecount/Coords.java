@@ -21,4 +21,8 @@ public class Coords {
 	public void setY(int y) {
 		this.y = y;
 	}
+	@Override
+	public String toString() {
+		return "Coords [行数=" + getX() + ", 列数=" + getY() + "]";
+	}
 }
