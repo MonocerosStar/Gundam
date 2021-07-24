@@ -60,7 +60,7 @@ public class CountUtils {
 		return counts;
 	}
 	//统计注释行、空行、代码行
-    public void countDiffLine(String path) {
+	private void countDiffLine(String path) {
         int annotationLineNum = 0;
         int codeLineNum = 0;
         int nullLineNum = 0;
