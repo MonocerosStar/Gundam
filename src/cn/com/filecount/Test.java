@@ -3,9 +3,13 @@ package cn.com.filecount;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Test {
+	@SuppressWarnings("unchecked")
 	public static void main(String[] args) throws IOException{
 		CountUtils util = new CountUtils();
 		System.out.println("-w 返回文件 file.c 中指定的字符的数目和位置  \n" +"-l 返回文件 file.c 的总行数 \n"+"-x 返回文件 file.c 的行数/注释行数/空行数");
@@ -21,7 +25,21 @@ public class Test {
 			//使用switch输入的命令进行分割
 			switch(commond[0]) {
 			case "-w": 
-				Map resMap = (Map)util.getCharNums(commond[1],commond[2]);
+				Map<String,Integer> map = new HashMap<String, Integer>();
+				Map resMap = util.getCharNums(commond[1],commond[2]);
+				List<Coords> list =new ArrayList<Coords>();
+				if (null != resMap) {
+					map = (Map<String, Integer>) resMap.get(commond[2]);
+					list = (List<Coords>) resMap.get(commond[2]);
+					if (null !=map) {
+						System.out.println("字符"+commond[2]+"出现的次数为"+map.get(commond[2]));
+					}
+					if (list !=null && list.size()>0) {
+						for (Coords coords : list) {
+							System.out.println(coords.toString());
+						}
+					}
+				}
 				System.out.println("字符数：");
 				break;
 			case "-l":
