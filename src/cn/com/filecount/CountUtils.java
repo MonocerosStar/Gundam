@@ -19,6 +19,7 @@ public class CountUtils {
 		int rowLocation = 0; 
 		int colLocation = 0;
 		int counts = 0;
+		int letterLength = letter.length();
 		//存放字符出现的次数
 		Map<String,Integer> map = new HashMap<String,Integer>();
 		Map<String,Object> ret = new HashMap<String,Object>();
@@ -34,7 +35,7 @@ public class CountUtils {
 				while (line.contains(letter)) {
 					colLocation += line.indexOf(letter);
 					list.add(new Coords(rowLocation,colLocation));
-					line = line.substring(line.indexOf(letter));
+					line = line.substring(line.indexOf(letter)+letterLength);
 					counts++;	
 				}		
 			}

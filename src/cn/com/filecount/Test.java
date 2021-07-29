@@ -30,7 +30,7 @@ public class Test {
 				List<Coords> list =new ArrayList<Coords>();
 				if (null != resMap) {
 					map = (Map<String, Integer>) resMap.get(commond[2]);
-					list = (List<Coords>) resMap.get(commond[2]);
+					list = (List<Coords>) resMap.get("location");
 					if (null !=map) {
 						System.out.println("字符"+commond[2]+"出现的次数为"+map.get(commond[2]));
 					}
@@ -40,7 +40,6 @@ public class Test {
 						}
 					}
 				}
-				System.out.println("字符数：");
 				break;
 			case "-l":
 				int num = util.getLineNumber(commond[1]);
