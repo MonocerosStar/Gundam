@@ -23,6 +23,6 @@ public class Coords {
 	}
 	@Override
 	public String toString() {
-		return "Coords [行数=" + getX() + ", 列数=" + getY() + "]";
+		return "[行数=" + getX() + ", 列数=" + getY() + "]";
 	}
 }
