@@ -18,8 +18,8 @@ public class Fraction {
 			}
 		}
 		sign = molecule * denominator > 0 ? 1 :-1;
-		this.molecule = molecule;
-		this.denominator = denominator;
+		this.molecule = Math.abs(molecule);
+		this.denominator = Math.abs(denominator);
 		simplify();
 	}
 	/***********************************************
@@ -78,7 +78,7 @@ public class Fraction {
 	public Fraction divide(int n, int m) {
 		return divide(new Fraction(n,m));
 	}
-	private Fraction multiply(int n, int m) {
+	public Fraction multiply(int n, int m) {
 		// TODO Auto-generated method stub
 		return multiply(new Fraction(n,m));
 	}
