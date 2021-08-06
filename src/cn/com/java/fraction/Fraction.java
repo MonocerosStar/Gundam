@@ -22,7 +22,9 @@ public class Fraction {
 		this.denominator = denominator;
 		simplify();
 	}
-	//简化分数
+	/***********************************************
+	 *     简化分数
+	 ***********************************************/ 
 	public void simplify() {
 		if (molecule == 0) {
 			return;
@@ -31,7 +33,9 @@ public class Fraction {
 		molecule /= maxDivisior;
 		denominator /= maxDivisior;
 	}
-	//欧几里得法求最大公约数
+	/***********************************************
+	 *    欧几里得法求最大公约数
+	 ***********************************************/ 
 	public int findMaxDivisior(int num1, int num2) {
 		int comDivisor1;
 		int comDivisor2;
@@ -86,5 +90,25 @@ public class Fraction {
 	public Fraction sub(int molecule2, int denominator2) {
 		// TODO Auto-generated method stub
 		return add(new Fraction(-molecule2,denominator2));
+	}
+	/***********************************************
+	 *   分数转小数
+	 ***********************************************/ 
+	public double toDouble() {
+		this.simplify();
+		if (molecule % denominator !=0) {
+			return 1.0;
+		}
+		return 1.0 * sign * molecule / denominator;
+	}
+	@Override
+	public String toString() {
+		if (molecule == 0) {
+			return "0";
+		}
+		if (denominator == 1) {
+			return (sign == 1 ? "":"-") + molecule;
+		}
+		return (sign == 1 ? "":"-") + molecule + "/" + denominator;
 	}
 }
